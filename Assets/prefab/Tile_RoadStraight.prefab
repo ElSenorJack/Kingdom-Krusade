@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1302689018282024003, guid: e77700e380e6bea4f89d3ccc7c17a359, type: 3}
+      propertyPath: isPlaceable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2014314144833807534, guid: e77700e380e6bea4f89d3ccc7c17a359, type: 3}
       propertyPath: m_Name
       value: Mesh
@@ -58,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7694849627334480752, guid: e77700e380e6bea4f89d3ccc7c17a359, type: 3}
       propertyPath: m_Name
-      value: (0, 0)
+      value: Tile_RoadStraight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
