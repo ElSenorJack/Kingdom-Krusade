@@ -8,11 +8,34 @@ public class EnemyMover : MonoBehaviour
     [SerializeField] [Range (0f, 5f)] float speed = 1f; //Limitiamo la velocità perchè valori negativi darebbero problemi all'equazione e troppo veloce sarebbe brutto
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        StartCoroutine (FollowPath());
+        FindPath();
+        ReturntoStart();
+        StartCoroutine(FollowPath());
+    }
+    void FindPath()
+    {
+        path.Clear();
+
+        GameObject[] waypoints = GameObject.FindGameObjectsWithTag("Path");
+
+        foreach (GameObject waypoint in waypoints)
+        {
+            path.Add(waypoint.GetComponent<Waypoint>());
+        }
+        //GameObject parent = GameObject.FindGameObjectWithTag("Path");
+
+        //foreach (Transform child in parent.transform)
+        //{
+        //   path.Add(child.GetComponent<Waypoint>());
+        //}
     }
 
+    void ReturntoStart()
+    {
+        transform.position = path[0].transform.position;
+    }
     IEnumerator FollowPath() //IEnum per ottenere risultati conteggiabili, ma ha bisogno di un Return per avere il risultato
     {
         foreach (Waypoint waypoint in path)
@@ -30,5 +53,6 @@ public class EnemyMover : MonoBehaviour
                 yield return new WaitForEndOfFrame(); //con Yield viene fatta riniziare questa fase in modo ciclico fino alla risoluzione del movimento
             }  
         }
+        gameObject.SetActive(false);
     }
 }
