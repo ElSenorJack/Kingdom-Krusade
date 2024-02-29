@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyTag))]
 public class EnemyMover : MonoBehaviour
 {
     [SerializeField] List<Waypoint> path = new List<Waypoint>();
@@ -23,23 +24,29 @@ public class EnemyMover : MonoBehaviour
     {
         path.Clear();
 
-        GameObject[] waypoints = GameObject.FindGameObjectsWithTag("Path");
+        GameObject parent = GameObject.FindGameObjectWithTag("Path");
 
-        foreach (GameObject waypoint in waypoints)
+        foreach (Transform child in parent.transform)
         {
-            path.Add(waypoint.GetComponent<Waypoint>());
-        }
-        //GameObject parent = GameObject.FindGameObjectWithTag("Path");
+            Waypoint waypoint = child.GetComponent<Waypoint>();
 
-        //foreach (Transform child in parent.transform)
-        //{
-        //   path.Add(child.GetComponent<Waypoint>());
-        //}
+            if (waypoint != null)
+            {
+                path.Add(waypoint);
+            }
+           
+        }
     }
 
     void ReturntoStart()
     {
         transform.position = path[0].transform.position;
+    }
+
+    void FinishPath()
+    {
+        enemy.Steal();
+        gameObject.SetActive(false);
     }
     IEnumerator FollowPath() //IEnum per ottenere risultati conteggiabili, ma ha bisogno di un Return per avere il risultato
     {
@@ -58,7 +65,6 @@ public class EnemyMover : MonoBehaviour
                 yield return new WaitForEndOfFrame(); //con Yield viene fatta riniziare questa fase in modo ciclico fino alla risoluzione del movimento
             }  
         }
-        enemy.Steal();
-        gameObject.SetActive(false);
+        FinishPath();
     }
 }

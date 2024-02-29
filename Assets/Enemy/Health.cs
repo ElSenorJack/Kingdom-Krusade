@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyTag))]
+[RequireComponent(typeof(EnemyTag))] //installa automaticamente lo script Enemytag per forzare l'utilizzo di entrambi gli script
 public class Health : MonoBehaviour
 {
     [SerializeField] int maxHP = 5;
+
+    [Tooltip("Adds amount to Max HP on death")]
     [SerializeField] int difficultyUp = 1; //aumenta la vita di Enemy
     int currentHP = 0;
 
