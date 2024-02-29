@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyTag))]
 public class Health : MonoBehaviour
 {
     [SerializeField] int maxHP = 5;
+    [SerializeField] int difficultyUp = 1; //aumenta la vita di Enemy
     int currentHP = 0;
-    // Start is called before the first frame update
-    void Start()
+
+    EnemyTag enemy;
+    void OnEnable()
     {
         currentHP = maxHP;
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        enemy = GetComponent<EnemyTag>();
+    }
+
 
     void OnParticleCollision(GameObject other)
     {
@@ -27,6 +34,8 @@ public class Health : MonoBehaviour
         if (currentHP <= 0)
         {
             gameObject.SetActive(false);
+            maxHP += difficultyUp;
+            enemy.Reward();
         }
     }
 }

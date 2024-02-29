@@ -7,13 +7,18 @@ public class EnemyMover : MonoBehaviour
     [SerializeField] List<Waypoint> path = new List<Waypoint>();
     [SerializeField] [Range (0f, 5f)] float speed = 1f; //Limitiamo la velocità perchè valori negativi darebbero problemi all'equazione e troppo veloce sarebbe brutto
 
-    // Start is called before the first frame update
+    EnemyTag enemy;
     void OnEnable()
     {
         FindPath();
         ReturntoStart();
         StartCoroutine(FollowPath());
     }
+    void Start()
+    {
+        enemy = GetComponent<EnemyTag>();
+    }
+
     void FindPath()
     {
         path.Clear();
@@ -53,6 +58,7 @@ public class EnemyMover : MonoBehaviour
                 yield return new WaitForEndOfFrame(); //con Yield viene fatta riniziare questa fase in modo ciclico fino alla risoluzione del movimento
             }  
         }
+        enemy.Steal();
         gameObject.SetActive(false);
     }
 }
