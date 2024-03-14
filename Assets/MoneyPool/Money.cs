@@ -6,7 +6,7 @@ using TMPro;
 
 public class Money : MonoBehaviour
 {
-    [SerializeField] int startingBlance = 150;
+    [SerializeField] int startingBalance = 150;
     [SerializeField] int currentBalance;
     [SerializeField] TextMeshProUGUI displayBalance;
     public int CurrentBalance {  get { return currentBalance; } }
@@ -14,7 +14,7 @@ public class Money : MonoBehaviour
 
     void Awake()
     {
-      currentBalance = startingBlance;
+      currentBalance = startingBalance;
         UpdateDisplay();
     }
 
@@ -25,9 +25,12 @@ public class Money : MonoBehaviour
     public void Deposit(int amount)
     {
         currentBalance += Mathf.Abs(amount);
-        UpdateDisplay();
-    }   //Mathf.Absolute serve a impedire che il valore si negativizzi se viene inserito un valore negativo
-
+        UpdateDisplay();//Mathf.Absolute serve a impedire che il valore si negativizzi se viene inserito un valore negativo
+        if (currentBalance >= 1000) 
+        { 
+            Invoke ("LoadNextScene", 2f);
+        }
+    }   
 
     public void Withdraw(int amount)
     { 
@@ -35,15 +38,25 @@ public class Money : MonoBehaviour
         UpdateDisplay();
 
         if (currentBalance < 0)
-        { 
-            ReloadScene();
+        {
+           ReloadScene();
         }
     }
 
     void ReloadScene()
-    { 
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.buildIndex);
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex; 
+        SceneManager.LoadScene(currentSceneIndex);
+    }
+    void LoadNextScene ()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;       
+        int nextSceneIndex = currentSceneIndex + 1;
+        if (nextSceneIndex == SceneManager.sceneCountInBuildSettings)
+        {
+            nextSceneIndex = 0;                                         
+        }
+        SceneManager.LoadScene (nextSceneIndex);
     }
 }
 
